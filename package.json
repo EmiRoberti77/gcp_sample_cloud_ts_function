@@ -1,0 +1,21 @@
+{
+  "name": "gcp_func_sample",
+  "version": "1.0.0",
+  "description": "sample ts function for gcp",
+  "main": "lib/index.js",
+  "repository": "https://github.com/EmiRoberti77/gcp_sample_cloud_ts_function",
+  "author": "Emi Roberti",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.4.5"
+  },
+  "scripts": {
+    "tsconfig": "tsc --init",
+    "gcp-build": "tsc",
+    "start": "functions-framework --target hello --port 8081"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  },
+  "packageManager": "yarn@4.6.0"
+}
