@@ -21,9 +21,9 @@
 # below
 
 .git
-.gitignore
+
+# .gitignore
 
 node_modules
-!.yarn/\*\*
-
-# !include:.gitignore
+!include:.gitignore
+!.pnp.cjs

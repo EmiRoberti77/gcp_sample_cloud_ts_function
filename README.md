@@ -1,8 +1,6 @@
 # GCP Functions
 
-## install gcloud CLI
-
-.. this took a bit of time on my machine as brew does a lot of updates ..
+## Install gcloud CLI
 
 ```bash
 brew install --cask google-cloud-sdk
@@ -19,70 +17,85 @@ gcloud --version
 ## Create Project
 
 ```bash
-yarn init -i
-
+npm init -i
 ```
 
-## install dependencies
+## Install Dependencies
 
 ```bash
-yarn add @google-cloud/functions-framework
-yarn add -D typescript
+npm i @google-cloud/functions-framework
+npm i -D typescript
 ```
 
-## Important note
+## Important Note
 
-To satisfy typescript i had to install or you might get compilation errors
+To satisfy TypeScript, I had to install additional packages. Without them, you might encounter compilation errors.
 
 ```bash
-@yarnpkg/sdks@3.2.0
+npm i dlx @yarnpkg/sdks vscode
 ```
 
-## Upgrade Yarn to Version 2 or Later: If you haven’t already, upgrade Yarn
+## Write the Function
+
+Create a file named `index.ts` with the following content:
+
+```typescript
+import { Request, Response } from 'express';
+
+export const hello = (req: Request, res: Response): void => {
+  res.send(`Hello from GCP function ${new Date().toISOString()}`);
+};
+```
+
+## Configure TypeScript
+
+Generate a `tsconfig.json` file:
 
 ```bash
-npm install -g yarn@berry
+npx tsc --init
 ```
 
-## Set Your Project to Use Plug'n'Play
-
-```bash
-yarn set version berry
-```
-
-.yarnrc.yml should now be in your project
-
-## Install Dependencies: Reinstall the project dependencies
-
-```bash
-yarn install
-```
-
-## Run the Command
-
-```bash
-yarn dlx @yarnpkg/sdks vscode
-```
-
-## In package.json specify what yarn engine you are using
+Update the `tsconfig.json` file to include the following:
 
 ```json
-  "engines": {
-    "yarn": "^4.6.0"
-  }
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "outDir": "lib",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
 ```
 
-## Write the function
+Move the `index.ts` file to a `src` directory to match this configuration.
 
-## build the project
-
-## Start the project locally
+## Build the Project
 
 ```bash
-yarn start
+npm run gcp-build
 ```
 
-output
+Add the following `scripts` section to your `package.json` if it doesn’t already exist:
+
+```json
+"scripts": {
+  "gcp-build": "tsc",
+  "start": "functions-framework --target hello --port 8081"
+}
+```
+
+## Start the Project Locally
+
+```bash
+npm run start
+```
+
+Output:
 
 ```bash
 Serving function...
@@ -91,26 +104,26 @@ Signature type: http
 URL: http://localhost:8081/
 ```
 
-Go to the url
-
-output
+Go to the URL, and you should see:
 
 ```bash
 Hello from GCP function 2025-01-20T07:32:42.067Z
 ```
 
-## Deploy to GCP cloud
+## Deploy to GCP Cloud
 
-if you are not logged in, make sure you authenticate your account
+If you are not logged in, authenticate your account:
 
 ```bash
 gcloud auth login
 ```
 
+Deploy the function:
+
 ```bash
 gcloud functions deploy hello \
     --gen2 \
-    --runtime=nodejs23 \
+    --runtime=nodejs20 \
     --region=us-west1 \
     --source=. \
     --entry-point=hello \
@@ -118,12 +131,24 @@ gcloud functions deploy hello \
     --allow-unauthenticated
 ```
 
-the command will produce a console output with the url to invoke the function from ( example output )
+The command will produce a console output with the URL to invoke the function. Example output:
 
 ```bash
 https://us-west1-gketest-448214.cloudfunctions.net/hello
 ```
 
-## Note about .yarn folder
+## Testing the Deployed Function
 
-this contains the release and needs to be in the directory gcloud deployment to work.
+Visit the URL provided in the output, and you should see:
+
+```bash
+Hello from GCP function 2025-01-20T07:32:42.067Z
+```
+
+## Cleanup Resources
+
+To avoid unnecessary charges, delete the deployed function when it is no longer needed:
+
+```bash
+gcloud functions delete hello --region=us-west1
+```
