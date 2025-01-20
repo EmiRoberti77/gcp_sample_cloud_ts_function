@@ -117,3 +117,13 @@ gcloud functions deploy hello \
     --trigger-http \
     --allow-unauthenticated
 ```
+
+the command will produce a console output with the url to invoke the function from ( example output )
+
+```bash
+https://us-west1-gketest-448214.cloudfunctions.net/hello
+```
+
+## Note about .yarn folder
+
+this contains the release and needs to be in the directory gcloud deployment to work.

@@ -12,6 +12,14 @@
   "engines": {
     "yarn": "^4.6.0"
   },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      ".yarn/**"
+    ]
+  },
   "scripts": {
     "tsconfig": "tsc --init",
     "gcp-build": "tsc",
