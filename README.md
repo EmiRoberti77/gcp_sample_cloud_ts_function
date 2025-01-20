@@ -63,3 +63,57 @@ yarn install
 ```bash
 yarn dlx @yarnpkg/sdks vscode
 ```
+
+## In package.json specify what yarn engine you are using
+
+```json
+  "engines": {
+    "yarn": "^4.6.0"
+  }
+```
+
+## Write the function
+
+## build the project
+
+## Start the project locally
+
+```bash
+yarn start
+```
+
+output
+
+```bash
+Serving function...
+Function: hello
+Signature type: http
+URL: http://localhost:8081/
+```
+
+Go to the url
+
+output
+
+```bash
+Hello from GCP function 2025-01-20T07:32:42.067Z
+```
+
+## Deploy to GCP cloud
+
+if you are not logged in, make sure you authenticate your account
+
+```bash
+gcloud auth login
+```
+
+```bash
+gcloud functions deploy hello \
+    --gen2 \
+    --runtime=nodejs23 \
+    --region=us-west1 \
+    --source=. \
+    --entry-point=hello \
+    --trigger-http \
+    --allow-unauthenticated
+```
