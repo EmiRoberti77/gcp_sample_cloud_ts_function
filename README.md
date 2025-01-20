@@ -137,6 +137,12 @@ The command will produce a console output with the URL to invoke the function. E
 https://us-west1-gketest-448214.cloudfunctions.net/hello
 ```
 
+## Function installed on the GCP console
+
+<img width="970" alt="Screenshot 2025-01-20 at 17 42 48" src="https://github.com/user-attachments/assets/d010def1-78d2-4800-9347-697bd27e279b" />
+
+<img width="986" alt="Screenshot 2025-01-20 at 17 43 58" src="https://github.com/user-attachments/assets/2606fffb-0cb2-4287-a6bc-04352579f27b" />
+
 ## Testing the Deployed Function
 
 Visit the URL provided in the output, and you should see:
